@@ -116,12 +116,17 @@ public class Photo extends DataObject {
 	 *
 	 */
 	protected long creationTime = System.currentTimeMillis();
-	
+
 	/**
 	 * The default type is jpg
 	 */
 	protected String ending = "jpg";
-	
+
+	/**
+	 * The default location is (0,0,0)T
+	 */
+	private Location location = null;
+
 	/**
 	 *
 	 */
@@ -417,5 +422,19 @@ public class Photo extends DataObject {
 	public void setNoNewPraise() {
 		noVotesAtLastNotification = noVotes;
 		incWriteCount();
+	}
+
+	/**
+	 * @methodtype get
+	 */
+	public Location getLocation() {
+		return location;
+	}
+
+	/**
+	 * @methodtype set
+	 */
+	public void setLocation (Location location){
+		this.location = location;
 	}
 }
