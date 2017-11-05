@@ -38,9 +38,6 @@ public class Location {
         if (this.coordinate == null) {
             return other.getCoordinate() == null;
         }
-        if (other.getCoordinate() == null){
-            return false;
-        }
         return coordinate.isEqual(other.getCoordinate());
     }
 

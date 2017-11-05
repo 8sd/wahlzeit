@@ -123,7 +123,7 @@ public class Photo extends DataObject {
 	protected String ending = "jpg";
 
 	/**
-	 * The default location is (0,0,0)T
+	 * 
 	 */
 	private Location location = null;
 
