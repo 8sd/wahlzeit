@@ -3,8 +3,6 @@ package org.wahlzeit.model;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 /**
  * Test class for {@link Location}.
  */
@@ -38,12 +36,12 @@ public class LocationTest {
         Location b = new Location(0,0,0);
         Location c = new Location(1, 1, 1);
 
-        Assert.assertTrue(a.equals(b));
-        Assert.assertTrue(b.equals(a));
-        Assert.assertFalse(a.equals(c));
-        Assert.assertFalse(c.equals(a));
-        Assert.assertFalse(a.equals(null));
-        Assert.assertFalse(a.equals(new ArrayList<String>()));
+        Assert.assertEquals(a,b);
+        Assert.assertEquals(b,a);
+        Assert.assertNotEquals(a,c);
+        Assert.assertNotEquals(c,a);
+        Assert.assertNotEquals(a,null);
+        Assert.assertNotEquals(a, new Object());
     }
 
     @Test

@@ -22,11 +22,17 @@ package org.wahlzeit.services.mailing;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.*;
+import org.junit.runners.*;
 import org.wahlzeit.services.EmailAddress;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+		org.wahlzeit.services.EmailAddressTest.class
+})
 public class EmailServiceTest {
 
 	EmailService emailService = null;
