@@ -14,7 +14,10 @@ import org.junit.runners.*;
         org.wahlzeit.model.PhotoFilterTest.class,
         org.wahlzeit.model.TagsTest.class,
         org.wahlzeit.model.UserStatusTest.class,
-        org.wahlzeit.model.ValueTest.class
+        org.wahlzeit.model.ValueTest.class,
+        org.wahlzeit.model.BeerPhotoTest.class,
+        org.wahlzeit.model.BeerPhotoManagerTest.class,
+        org.wahlzeit.model.BeerPhotoFactoryTest.class
 })
 
 public class ModelTest {
