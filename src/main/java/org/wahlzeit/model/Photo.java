@@ -137,11 +137,12 @@ public class Photo extends DataObject {
 	Key parent = ObjectManager.applicationRootKey;
 
 	/**
-	 *
+	 * @methodtype constructor
 	 */
 	public Photo() {
 		id = PhotoId.getNextId();
 		incWriteCount();
+		System.out.println("Hello I'm a lame photo");
 	}
 
 	/**
@@ -151,6 +152,7 @@ public class Photo extends DataObject {
 		id = myId;
 
 		incWriteCount();
+		System.out.println("Hello I'm a lame photo");
 	}
 
 	/**

@@ -25,7 +25,7 @@ import org.wahlzeit.agents.AsyncTaskExecutor;
 import org.wahlzeit.model.AccessRights;
 import org.wahlzeit.model.ModelConfig;
 import org.wahlzeit.model.Photo;
-import org.wahlzeit.model.PhotoManager;
+import org.wahlzeit.model.BeerPhotoManager;
 import org.wahlzeit.model.Tags;
 import org.wahlzeit.model.User;
 import org.wahlzeit.model.UserSession;
@@ -73,7 +73,7 @@ public class UploadPhotoFormHandler extends AbstractWebFormHandler {
 		}
 
 		try {
-			PhotoManager pm = PhotoManager.getInstance();
+			BeerPhotoManager pm = BeerPhotoManager.getInstance();
 			String fileName = us.getAsString(args, "fileName");
 			User user = (User) us.getClient();
 			Image uploadedImage = user.getUploadedImage();

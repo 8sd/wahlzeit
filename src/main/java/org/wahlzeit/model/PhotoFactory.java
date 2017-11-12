@@ -33,7 +33,7 @@ public class PhotoFactory {
 	/**
 	 * Hidden singleton instance; needs to be initialized from the outside.
 	 */
-	private static PhotoFactory instance = null;
+	protected static PhotoFactory instance = null;
 
 	/**
 	 *
@@ -69,6 +69,7 @@ public class PhotoFactory {
 			throw new IllegalStateException("attempt to initalize PhotoFactory twice");
 		}
 
+		(new Exception("")).printStackTrace();
 		instance = photoFactory;
 	}
 
@@ -91,7 +92,7 @@ public class PhotoFactory {
 	 * Google Cloud storage.
 	 */
 	public Photo loadPhoto(PhotoId id) {
-	   /* Photo result =
+	   /*Photo result =
                 OfyService.ofy().load().type(Photo.class).ancestor(KeyFactory.createKey("Application", "Wahlzeit")).filter(Photo.ID, id).first().now();
         for (PhotoSize size : PhotoSize.values()) {
             GcsFilename gcsFilename = new GcsFilename("picturebucket", filename);
