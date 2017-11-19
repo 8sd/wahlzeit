@@ -30,9 +30,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
-		org.wahlzeit.services.EmailAddressTest.class
-})
+@Suite.SuiteClasses({})
 public class EmailServiceTest {
 
 	EmailService emailService = null;

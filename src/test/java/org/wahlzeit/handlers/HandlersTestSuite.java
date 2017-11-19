@@ -8,5 +8,5 @@ import org.junit.runners.*;
         org.wahlzeit.handlers.TellFriendTest.class
         })
 
-public class HandlersTest {
+public class HandlersTestSuite {
 }

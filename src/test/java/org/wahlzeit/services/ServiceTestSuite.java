@@ -10,5 +10,5 @@ import org.junit.runners.*;
         org.wahlzeit.services.LogBuilderTest.class,
         })
 
-public class ServiceTest {
+public class ServiceTestSuite {
 }

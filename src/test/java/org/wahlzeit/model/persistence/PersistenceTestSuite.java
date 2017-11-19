@@ -5,9 +5,8 @@ import org.junit.runners.*;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        org.wahlzeit.model.persistence.AbstractAdapterTest.class,
         org.wahlzeit.model.persistence.DatastoreAdapterTest.class,
         })
 
-public class PersistenceTest {
+public class PersistenceTestSuite {
 }

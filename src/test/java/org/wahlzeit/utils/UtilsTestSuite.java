@@ -9,5 +9,5 @@ import org.junit.runners.*;
         org.wahlzeit.utils.VersionTest.class,
         })
 
-public class UtilsTest {
+public class UtilsTestSuite {
 }
