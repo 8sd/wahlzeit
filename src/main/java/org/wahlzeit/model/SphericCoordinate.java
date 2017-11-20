@@ -1,6 +1,6 @@
 package org.wahlzeit.model;
 
-public class SphericCoordinate implements Coordinate{
+public class SphericCoordinate extends AbstractCoordinate{
     private double latitude, longitude, radius;
 
     public SphericCoordinate(){}
@@ -35,10 +35,12 @@ public class SphericCoordinate implements Coordinate{
         this.radius = radius;
     }
 
+    @Override
     public SphericCoordinate asSphericCoordinate (){
         return this;
     }
 
+    @Override
     public CartesianCoordinate asCartesianCoordinate (){
         double x = radius * Math.sin(latitude) * Math.cos(longitude);
         double y = radius * Math.sin(latitude) * Math.sin(longitude);
@@ -46,27 +48,7 @@ public class SphericCoordinate implements Coordinate{
         return new CartesianCoordinate(x, y, z);
     }
 
-    public double getDistance (Coordinate coordinate){
-        if(coordinate instanceof SphericCoordinate){
-            return getSphericDistance(coordinate);
-        }
-        return getCartesianDistance(coordinate);
-    }
-
-    public double getCartesianDistance (Coordinate coordinate){
-        return coordinate.asCartesianCoordinate().getCartesianDistance(this);
-    }
-
-    /***
-     * Due to the weak description of the task this function just uses the cartesian distance function
-     * @param coordinate
-     * @return Distance between coorinates
-     */
-    public double getSphericDistance (Coordinate coordinate){
-        CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
-        return cartesianCoordinate.getCartesianDistance(this);
-    }
-
+    @Override
     public boolean isEqual (Coordinate coordinate){
         if(coordinate == null){
             return false;

@@ -1,6 +1,6 @@
 package org.wahlzeit.model;
 
-public class CartesianCoordinate implements Coordinate{
+public class CartesianCoordinate extends AbstractCoordinate{
     private double x, y, z;
 
     public CartesianCoordinate(){
@@ -70,24 +70,7 @@ public class CartesianCoordinate implements Coordinate{
         }
     }
 
-    public double getDistance (Coordinate coordinate){
-        return getCartesianDistance(coordinate);
-    }
-
-    public double getCartesianDistance(Coordinate coordinate){
-        if(coordinate == null){
-            return Double.NaN;
-        }
-        CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
-
-        if(this.isEqual(cartesianCoordinate)){
-            return 0;
-        }
-        return Math.sqrt(Math.pow(this.x-cartesianCoordinate.x, 2) +
-                         Math.pow(this.y-cartesianCoordinate.y, 2) +
-                         Math.pow(this.z-cartesianCoordinate.z, 2));
-    }
-
+    @Override
     public boolean isEqual (Coordinate coordinate){
         if(coordinate == null){
             return false;
@@ -118,6 +101,7 @@ public class CartesianCoordinate implements Coordinate{
         return false;
     }
 
+    @Override
     public SphericCoordinate asSphericCoordinate (){
         //https://en.wikipedia.org/wiki/Spherical_coordinate_system#Cartesian_coordinates
         double radius = getCartesianDistance(new CartesianCoordinate());
@@ -126,11 +110,16 @@ public class CartesianCoordinate implements Coordinate{
         return new SphericCoordinate(latitude, longitude, radius);
     }
 
+    @Override
     public CartesianCoordinate asCartesianCoordinate (){
         return this;
     }
 
-    public double getSphericDistance (Coordinate coordinate){
-        return coordinate.asSphericCoordinate().getSphericDistance(this);
+    @Override
+    public double getCartesianDistance (Coordinate coordinate){
+        CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
+        return Math.sqrt(Math.pow(x - cartesianCoordinate.x, 2) +
+                        Math.pow(y - cartesianCoordinate.y, 2) +
+                        Math.pow(z - cartesianCoordinate.z, 2));
     }
 }
