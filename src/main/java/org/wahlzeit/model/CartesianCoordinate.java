@@ -1,3 +1,23 @@
+/*
+ * Copyright (c) 2006-2017 by Sebastian Duda, https://meinewebsite.org
+ *
+ * This file is part of the Wahlzeit photo rating application.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this program. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
 package org.wahlzeit.model;
 
 public class CartesianCoordinate extends AbstractCoordinate{
@@ -78,13 +98,13 @@ public class CartesianCoordinate extends AbstractCoordinate{
 
         CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
 
-        if(this.x != cartesianCoordinate.x){
+        if(Double.compare(this.x, cartesianCoordinate.x) != 0){
             return false;
         }
-        if(this.y != cartesianCoordinate.y){
+        if(Double.compare(this.y, cartesianCoordinate.y) != 0){
             return false;
         }
-        return this.z == cartesianCoordinate.z;
+        return Double.compare(this.z, cartesianCoordinate.z) == 0;
     }
 
     @Override
@@ -104,9 +124,14 @@ public class CartesianCoordinate extends AbstractCoordinate{
     @Override
     public SphericCoordinate asSphericCoordinate (){
         //https://en.wikipedia.org/wiki/Spherical_coordinate_system#Cartesian_coordinates
-        double radius = getCartesianDistance(new CartesianCoordinate());
-        double latitude = Math.acos(z/radius);
-        double longitude = Math.atan(y/x);
+        double radius = getCartesianDistance(zero);
+        double latitude = 0;
+        double longitude = 0;
+        if (Double.compare(radius, 0) != 0){
+            latitude = Math.acos(z/radius);
+            longitude = Math.atan(y/x);
+        }
+
         return new SphericCoordinate(latitude, longitude, radius);
     }
 

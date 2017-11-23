@@ -2,9 +2,13 @@ package org.wahlzeit.model;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
 
 public class CoordinateTest {
     static final double delta = 0.00001;
+
     @Test
     public void testDynamicObjectHandling(){
         Coordinate c0 = new CartesianCoordinate();
@@ -29,5 +33,7 @@ public class CoordinateTest {
         Assert.assertEquals(c0.getDistance(c5), 0,delta);
         Assert.assertEquals(c0.getDistance(c6), 1,delta);
 
+        Assert.assertEquals(c0, c0.asSphericCoordinate().asCartesianCoordinate());
+        Assert.assertEquals(c3, c3.asCartesianCoordinate().asSphericCoordinate());
     }
 }
