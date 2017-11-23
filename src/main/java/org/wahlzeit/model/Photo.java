@@ -142,7 +142,6 @@ public class Photo extends DataObject {
 	public Photo() {
 		id = PhotoId.getNextId();
 		incWriteCount();
-		System.out.println("Hello I'm a lame photo");
 	}
 
 	/**
@@ -152,7 +151,6 @@ public class Photo extends DataObject {
 		id = myId;
 
 		incWriteCount();
-		System.out.println("Hello I'm a lame photo");
 	}
 
 	/**
