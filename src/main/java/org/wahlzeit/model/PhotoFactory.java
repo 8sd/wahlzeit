@@ -69,7 +69,6 @@ public class PhotoFactory {
 			throw new IllegalStateException("attempt to initalize PhotoFactory twice");
 		}
 
-		(new Exception("")).printStackTrace();
 		instance = photoFactory;
 	}
 

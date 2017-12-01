@@ -20,23 +20,24 @@
 
 package org.wahlzeit.model;
 
+import static org.wahlzeit.others.Helpers.compareDouble;
+import static org.wahlzeit.others.Helpers.isFinite;
+
 public class CartesianCoordinate extends AbstractCoordinate{
     private double x, y, z;
 
     public CartesianCoordinate(){
-        x = 0;
-        y = 0;
-        z = 0;
+        /*default behavior is ensuring the invariance*/
     }
 
     public CartesianCoordinate(double x, double y, double z){
-        if(Double.isNaN(x)||Double.isNaN(y)||Double.isNaN(z)){
-            throw new IllegalArgumentException("Value of coordinate must not be NaN");
-        }
-
+        assert isFinite(x);
+        assert isFinite(y);
+        assert isFinite(z);
         this.x = x;
         this.y = y;
         this.z = z;
+        /*postcondition (valid object) is ensured by preconditions*/
     }
 
     public double getX() {
@@ -52,59 +53,43 @@ public class CartesianCoordinate extends AbstractCoordinate{
     }
 
     public void setX(double x) {
-        if(Double.isNaN(x)){
-            throw new IllegalArgumentException ();
-        }
+        assert isFinite(x);
         this.x = x;
+        assertClassInvariants();
     }
 
     public void setY(double y) {
-        if(Double.isNaN(z)){
-            throw new IllegalArgumentException ();
-        }
+        assert isFinite(y);
         this.y = y;
+        assertClassInvariants();
     }
 
     public void setZ(double z) {
-        if(Double.isNaN(z)){
-            throw new IllegalArgumentException ();
-        }
+        assert isFinite(z);
         this.z = z;
-    }
-
-    /**
-     * Set some values; NaN if current value ought to be kept
-     * @param x new value for x; NaN is current value ought to be kept
-     * @param y new value for y; NaN is current value ought to be kept
-     * @param z new value for z; NaN is current value ought to be kept
-     */
-    public void setSome(double x, double y, double z){
-        if(!Double.isNaN(x)){
-            this.x = x;
-        }
-        if(!Double.isNaN(y)){
-            this.y = y;
-        }
-        if(!Double.isNaN(z)){
-            this.z = z;
-        }
+        assertClassInvariants();
     }
 
     @Override
     public boolean isEqual (Coordinate coordinate){
+        assertClassInvariants ();
         if(coordinate == null){
             return false;
         }
 
+        if(this == coordinate){
+            return true;
+        }
+
         CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
 
-        if(Double.compare(this.x, cartesianCoordinate.x) != 0){
+        if(!compareDouble(x, cartesianCoordinate.x)){
             return false;
         }
-        if(Double.compare(this.y, cartesianCoordinate.y) != 0){
+        if(!compareDouble(y, cartesianCoordinate.y)){
             return false;
         }
-        return Double.compare(this.z, cartesianCoordinate.z) == 0;
+        return compareDouble(z, cartesianCoordinate.z);
     }
 
     @Override
@@ -123,13 +108,21 @@ public class CartesianCoordinate extends AbstractCoordinate{
 
     @Override
     public SphericCoordinate asSphericCoordinate (){
-        //https://en.wikipedia.org/wiki/Spherical_coordinate_system#Cartesian_coordinates
-        double radius = getCartesianDistance(zero);
+        assertClassInvariants();
+        double radius = getDistance();
         double latitude = 0;
         double longitude = 0;
-        if (Double.compare(radius, 0) != 0){
-            latitude = Math.acos(z/radius);
-            longitude = Math.atan(y/x);
+        if (!compareDouble(radius, 0)){
+            if(compareDouble(x, 0)){
+                if(compareDouble(y, 0)){
+                    longitude = 0;
+                } else {
+                    longitude = SphericCoordinate.pihalf * (y > 0 ? 1 : -1);
+                }
+            } else {
+                longitude = Math.atan(y / x);
+            }
+            latitude = Math.asin(z / radius);
         }
 
         return new SphericCoordinate(latitude, longitude, radius);
@@ -137,14 +130,27 @@ public class CartesianCoordinate extends AbstractCoordinate{
 
     @Override
     public CartesianCoordinate asCartesianCoordinate (){
+        assertClassInvariants ();
         return this;
     }
 
     @Override
     public double getCartesianDistance (Coordinate coordinate){
+        assertClassInvariants ();
         CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
+        /*validity is ensured here; Math.sqrt(…) never fails*/
         return Math.sqrt(Math.pow(x - cartesianCoordinate.x, 2) +
                         Math.pow(y - cartesianCoordinate.y, 2) +
                         Math.pow(z - cartesianCoordinate.z, 2));
+    }
+
+    @Override
+    public void assertClassInvariants (){
+        /*check whether all values are valid*/
+        assert isFinite(x);
+        assert isFinite(y);
+        assert isFinite(z);
+
+        /*there are no requirements for the range of the values*/
     }
 }

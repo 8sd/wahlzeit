@@ -21,6 +21,7 @@
 package org.wahlzeit.model;
 
 public abstract class AbstractCoordinate implements Coordinate{
+
     public static final Coordinate zero = new CartesianCoordinate();
 
     public abstract SphericCoordinate asSphericCoordinate ();
@@ -59,4 +60,6 @@ public abstract class AbstractCoordinate implements Coordinate{
         /*TODO implement purposeful hashfunction*/
         return 0;
     }
+
+    public abstract void assertClassInvariants ();
 }

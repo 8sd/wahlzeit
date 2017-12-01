@@ -18,17 +18,35 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-        package org.wahlzeit.model;
+package org.wahlzeit.model;
+
+import static org.wahlzeit.others.Helpers.*;
 
 public class SphericCoordinate extends AbstractCoordinate{
-    private double latitude, longitude, radius;
+    public static final double pihalf = Math.PI/2;
 
-    public SphericCoordinate(){}
+    private double latitude;
+    private double longitude;
+    private double radius;
+
+    public SphericCoordinate(){
+        /*default behavior is ensuring the invariance*/
+    }
 
     public SphericCoordinate(double latitude, double longitude, double radius){
+        assert radius >= 0;
+        assert latitude >= 0;
+        assert latitude < 360;
+        assert longitude >= 0;
+        assert longitude < 360;
+        assert isFinite(radius);
+        assert isFinite(longitude);
+        assert isFinite(latitude);
+
         this.latitude = latitude;
         this.longitude = longitude;
-        this.radius = radius;
+        setRadius(radius); //here is the setter used, because special handling might be required
+        /*postcondition (valid object) is ensured by preconditions*/
     }
 
     public double getLatitude() {
@@ -44,15 +62,28 @@ public class SphericCoordinate extends AbstractCoordinate{
     }
 
     public void setLatitude(double latitude) {
+        assert latitude >= 0;
+        assert latitude < 360;
         this.latitude = latitude;
+        assertClassInvariants();
     }
 
     public void setLongitude(double longitude) {
+        assert longitude >= 0;
+        assert longitude < 360;
         this.longitude = longitude;
+        assertClassInvariants();
     }
 
     public void setRadius(double radius) {
+        assert radius >= 0;
+        if (isDoubleZero(radius)){
+            this.latitude = 0;
+            this.longitude = 0;
+            this.radius = 0;
+        }
         this.radius = radius;
+        assertClassInvariants();
     }
 
     @Override
@@ -65,32 +96,37 @@ public class SphericCoordinate extends AbstractCoordinate{
         double x = radius * Math.sin(latitude) * Math.cos(longitude);
         double y = radius * Math.sin(latitude) * Math.sin(longitude);
         double z = radius * Math.cos(latitude);
-        return new CartesianCoordinate(x, y, z);
+        CartesianCoordinate tmp = new CartesianCoordinate(x, y, z);
+        tmp.assertClassInvariants();
+        return tmp;
     }
 
     @Override
     public boolean isEqual (Coordinate coordinate){
+        assertClassInvariants();
         if(coordinate == null){
             return false;
         }
 
         SphericCoordinate sphericCoordinate = coordinate.asSphericCoordinate();
 
-        if(Double.compare(radius, sphericCoordinate.radius) == 0 &&
-                Double.compare(radius, 0) == 0){
+        if(isDoubleZero(sphericCoordinate.radius) &&
+                isDoubleZero(radius)){
             return true;
         }
-        if(Double.compare(latitude, sphericCoordinate.getLatitude()) != 0){
+        if(!compareDouble(latitude, sphericCoordinate.latitude)){
             return false;
         }
-        if(Double.compare(longitude, sphericCoordinate.getLongitude()) != 0){
+        if(!compareDouble(longitude, sphericCoordinate.longitude)){
             return false;
         }
-        return Double.compare(radius, sphericCoordinate.radius) == 0;
+        return compareDouble(radius, sphericCoordinate.radius);
     }
 
     @Override
     public boolean equals (Object obj) {
+        assertClassInvariants();
+        /*Postcondition: the value true or false is returned this is ensured by the use of boolean*/
         if (obj == null){
             return false;
         }
@@ -101,5 +137,26 @@ public class SphericCoordinate extends AbstractCoordinate{
             return isEqual((Coordinate) obj);
         }
         return false;
+    }
+
+    @Override
+    public void assertClassInvariants (){
+        /*check whether all values are valid*/
+        assert isFinite(latitude);
+        assert isFinite(longitude);
+        assert isFinite(radius);
+
+        /*radius == 0 → latitude == 0 && longitude == 0*/
+        if (isDoubleZero(radius)){
+            assert isDoubleZero(latitude);
+            assert isDoubleZero(longitude);
+        }
+
+        /*values must be in certain range*/
+        assert radius >= 0; //not negative
+        assert latitude >= 0; //not negative
+        assert latitude < 360; //360° → 0°
+        assert longitude >= 0; //not negative
+        assert longitude < 360; //360° → 0°
     }
 }
