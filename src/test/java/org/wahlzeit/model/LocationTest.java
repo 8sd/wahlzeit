@@ -15,17 +15,17 @@ public class LocationTest {
         Assert.assertNotEquals(new Location(), new Location(1,0,0));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void testConstructorException1 (){
         Location test = new Location(Double.NaN ,0 ,0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void testConstructorException2 (){
         Location test = new Location(0, Double.NaN ,0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void testConstructorException3 (){
         Location test = new Location(0, 0, Double.NaN);
     }
