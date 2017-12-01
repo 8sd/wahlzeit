@@ -24,6 +24,7 @@ import static org.wahlzeit.others.Helpers.*;
 
 public class SphericCoordinate extends AbstractCoordinate{
     public static final double pihalf = Math.PI/2;
+    public static final double twopi = Math.PI*2;
 
     private double latitude;
     private double longitude;
@@ -36,9 +37,9 @@ public class SphericCoordinate extends AbstractCoordinate{
     public SphericCoordinate(double latitude, double longitude, double radius){
         assert radius >= 0;
         assert latitude >= 0;
-        assert latitude < 360;
+        assert latitude < twopi;
         assert longitude >= 0;
-        assert longitude < 360;
+        assert longitude < twopi;
         assert isFinite(radius);
         assert isFinite(longitude);
         assert isFinite(latitude);
@@ -63,14 +64,14 @@ public class SphericCoordinate extends AbstractCoordinate{
 
     public void setLatitude(double latitude) {
         assert latitude >= 0;
-        assert latitude < 360;
+        assert latitude < twopi;
         this.latitude = latitude;
         assertClassInvariants();
     }
 
     public void setLongitude(double longitude) {
         assert longitude >= 0;
-        assert longitude < 360;
+        assert longitude < twopi;
         this.longitude = longitude;
         assertClassInvariants();
     }
@@ -155,8 +156,8 @@ public class SphericCoordinate extends AbstractCoordinate{
         /*values must be in certain range*/
         assert radius >= 0; //not negative
         assert latitude >= 0; //not negative
-        assert latitude < 360; //360° → 0°
+        assert latitude < twopi; //360° → 0°
         assert longitude >= 0; //not negative
-        assert longitude < 360; //360° → 0°
+        assert longitude < twopi; //360° → 0°
     }
 }
