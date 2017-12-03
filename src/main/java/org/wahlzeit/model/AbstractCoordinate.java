@@ -37,6 +37,7 @@ public abstract class AbstractCoordinate implements Coordinate{
     }
 
     public double getCartesianDistance (Coordinate coordinate){
+        assertClassInvariants();
         if(coordinate == null){
             return Double.NaN;
         }
