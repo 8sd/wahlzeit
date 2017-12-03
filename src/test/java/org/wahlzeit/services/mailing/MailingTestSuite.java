@@ -8,5 +8,5 @@ import org.junit.runners.*;
         org.wahlzeit.services.mailing.EmailServiceTest.class
         })
 
-public class MailingTest {
+public class MailingTestSuite {
 }

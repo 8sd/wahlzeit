@@ -12,7 +12,6 @@ import org.wahlzeit.model.persistence.PersistenceTestSuite;
         GenderTest.class,
         GuestTest.class,
         LocationTest.class,
-        CoordinateTest.class,
         CartesianCoordinateTest.class,
         SphericCoordinateTest.class,
         PhotoFilterTest.class,

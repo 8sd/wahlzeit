@@ -33,6 +33,4 @@ public interface Coordinate {
 
     @Override
     int hashCode();
-
-    void assertClassInvariants ();
 }

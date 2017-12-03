@@ -145,7 +145,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
     }
 
     @Override
-    public void assertClassInvariants (){
+    protected void assertClassInvariants (){
         /*check whether all values are valid*/
         assert isFinite(x);
         assert isFinite(y);

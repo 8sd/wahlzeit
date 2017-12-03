@@ -62,5 +62,5 @@ public abstract class AbstractCoordinate implements Coordinate{
         return 0;
     }
 
-    public abstract void assertClassInvariants ();
+    protected abstract void assertClassInvariants ();
 }

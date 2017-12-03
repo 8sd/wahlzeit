@@ -141,7 +141,7 @@ public class SphericCoordinate extends AbstractCoordinate{
     }
 
     @Override
-    public void assertClassInvariants (){
+    protected void assertClassInvariants (){
         /*check whether all values are valid*/
         assert isFinite(latitude);
         assert isFinite(longitude);
