@@ -36,13 +36,8 @@ public class SphericCoordinate extends AbstractCoordinate{
 
     public SphericCoordinate(double latitude, double longitude, double radius){
         assert radius >= 0;
-        assert latitude >= 0;
-        assert latitude < twopi;
-        assert longitude >= 0;
-        assert longitude < twopi;
-        assert isFinite(radius);
-        assert isFinite(longitude);
-        assert isFinite(latitude);
+        assertDoubleIsAngular(longitude);
+        assertDoubleIsAngular(latitude);
 
         this.latitude = latitude;
         this.longitude = longitude;
@@ -63,21 +58,20 @@ public class SphericCoordinate extends AbstractCoordinate{
     }
 
     public void setLatitude(double latitude) {
-        assert latitude >= 0;
-        assert latitude < twopi;
+        assertDoubleIsAngular(latitude);
         this.latitude = latitude;
         assertClassInvariants();
     }
 
     public void setLongitude(double longitude) {
-        assert longitude >= 0;
-        assert longitude < twopi;
+        assertDoubleIsAngular(longitude);
         this.longitude = longitude;
         assertClassInvariants();
     }
 
     public void setRadius(double radius) {
         assert radius >= 0;
+        assert isFinite(radius);
         if (isDoubleZero(radius)){
             this.latitude = 0;
             this.longitude = 0;
@@ -97,9 +91,7 @@ public class SphericCoordinate extends AbstractCoordinate{
         double x = radius * Math.sin(latitude) * Math.cos(longitude);
         double y = radius * Math.sin(latitude) * Math.sin(longitude);
         double z = radius * Math.cos(latitude);
-        CartesianCoordinate tmp = new CartesianCoordinate(x, y, z);
-        tmp.assertClassInvariants();
-        return tmp;
+        return new CartesianCoordinate(x, y, z); //invariance ensured by constructor
     }
 
     @Override
@@ -142,22 +134,46 @@ public class SphericCoordinate extends AbstractCoordinate{
 
     @Override
     protected void assertClassInvariants (){
-        /*check whether all values are valid*/
-        assert isFinite(latitude);
-        assert isFinite(longitude);
-        assert isFinite(radius);
+        assert radius >= 0; //not negative
+        assertDoubleIsAngular(longitude);
+        assertDoubleIsAngular(latitude);
 
         /*radius == 0 → latitude == 0 && longitude == 0*/
         if (isDoubleZero(radius)){
             assert isDoubleZero(latitude);
             assert isDoubleZero(longitude);
         }
+    }
 
-        /*values must be in certain range*/
-        assert radius >= 0; //not negative
-        assert latitude >= 0; //not negative
-        assert latitude < twopi; //360° → 0°
-        assert longitude >= 0; //not negative
-        assert longitude < twopi; //360° → 0°
+    private void assertDoubleIsAngular (double angular){
+        assert isFinite(angular);
+        assert angular >= 0; //not negative
+        assert angular < twopi; //360° → 0°
+    }
+
+    public double getCartesianDistance (Coordinate coordinate){
+        return this.asCartesianCoordinate().getCartesianDistance(coordinate);
+    }
+
+
+    public double  getSphericDistance (Coordinate coordinate) throws ArithmeticException {
+        assert coordinate != null;
+        SphericCoordinate sphericCoordinate = coordinate.asSphericCoordinate();
+        if (!compareDouble(radius, sphericCoordinate.radius)){
+            throw new ArithmeticException("Radius of both coordinates have to be eaqual");
+        }
+
+        //copied from http://www.movable-type.co.uk/scripts/latlong.html
+        double φ1 = latitude;
+        double φ2 = sphericCoordinate.latitude;
+        double Δφ = sphericCoordinate.latitude-latitude;
+        double Δλ = sphericCoordinate.longitude-longitude;
+
+        double a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                        Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        return radius * c;
     }
 }

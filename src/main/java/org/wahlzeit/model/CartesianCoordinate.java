@@ -31,7 +31,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
     }
 
     public CartesianCoordinate(double x, double y, double z){
-        assert isFinite(x);
+        assert isFinite(x); //it might be valid to accept +-infinite
         assert isFinite(y);
         assert isFinite(z);
         this.x = x;
@@ -55,7 +55,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
     public void setX(double x) {
         assert isFinite(x);
         this.x = x;
-        assertClassInvariants();
+        assertClassInvariants(); //is always valid (valid object + finite x = valid object
     }
 
     public void setY(double y) {
@@ -109,7 +109,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
     @Override
     public SphericCoordinate asSphericCoordinate (){
         assertClassInvariants();
-        double radius = getDistance();
+        double radius = getCartesianDistance(zero);
         double latitude = 0;
         double longitude = 0;
         if (!compareDouble(radius, 0)){
@@ -134,14 +134,19 @@ public class CartesianCoordinate extends AbstractCoordinate{
         return this;
     }
 
-    @Override
     public double getCartesianDistance (Coordinate coordinate){
+        assert coordinate != null;
         assertClassInvariants ();
         CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
         /*validity is ensured here; Math.sqrt(…) never fails*/
         return Math.sqrt(Math.pow(x - cartesianCoordinate.x, 2) +
                         Math.pow(y - cartesianCoordinate.y, 2) +
                         Math.pow(z - cartesianCoordinate.z, 2));
+    }
+
+    public double getSphericDistance (Coordinate coordinate) throws ArithmeticException {
+        return this.asSphericCoordinate().getSphericDistance(coordinate);
+
     }
 
     @Override

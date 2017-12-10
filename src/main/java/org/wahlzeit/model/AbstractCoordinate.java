@@ -29,30 +29,27 @@ public abstract class AbstractCoordinate implements Coordinate{
     public abstract CartesianCoordinate asCartesianCoordinate ();
 
     public double getDistance (Coordinate coordinate){
-        return getCartesianDistance(coordinate);
+        assertClassInvariants();
+        assert coordinate != null;
+
+        if(this.isEqual(coordinate)){
+            return 0;
+        }
+
+        try { //does not violate lsp both subclasses behave in the same way
+            return getSphericDistance(coordinate);
+        } catch (ArithmeticException e) { //is radius are nt equal
+            return getCartesianDistance(coordinate);
+        }
     }
 
     public double getDistance (){
         return getDistance(zero);
     }
 
-    public double getCartesianDistance (Coordinate coordinate){
-        assertClassInvariants();
-        if(coordinate == null){
-            return Double.NaN;
-        }
-        CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
+    public abstract double getCartesianDistance (Coordinate coordinate);
 
-        if(this.isEqual(cartesianCoordinate)){
-            return 0;
-        }
-
-        return cartesianCoordinate.getCartesianDistance(this);
-    }
-
-    public double getSphericDistance (Coordinate coordinate){
-        return getCartesianDistance(coordinate);
-    }
+    public abstract double  getSphericDistance (Coordinate coordinate) throws ArithmeticException;
 
     public abstract boolean isEqual (Coordinate coordinate);
 
