@@ -20,29 +20,41 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.others.EntityManagement;
+
 import static org.wahlzeit.others.Helpers.*;
 
 public class SphericCoordinate extends AbstractCoordinate{
+    final private static EntityManagement<SphericCoordinate> entityManagement = new EntityManagement<>();
+
     public static final double pihalf = Math.PI/2;
     public static final double twopi = Math.PI*2;
 
-    private double latitude;
-    private double longitude;
-    private double radius;
+    final private double latitude, longitude, radius;
 
-    public SphericCoordinate(){
-        /*default behavior is ensuring the invariance*/
-    }
-
-    public SphericCoordinate(double latitude, double longitude, double radius){
+    private SphericCoordinate(double latitude, double longitude, double radius){
         assert radius >= 0;
+        assert isFinite(radius);
         assertDoubleIsAngular(longitude);
         assertDoubleIsAngular(latitude);
 
-        this.latitude = latitude;
-        this.longitude = longitude;
-        setRadius(radius); //here is the setter used, because special handling might be required
-        /*postcondition (valid object) is ensured by preconditions*/
+        if (radius == 0){
+            this.latitude = 0;
+            this.longitude = 0;
+            this.radius = 0;
+        } else {
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.radius = radius;
+        }
+    }
+
+    public static SphericCoordinate getSphericCoordinate(){
+        return entityManagement.getEntitiy(new SphericCoordinate(0,0,0)).asSphericCoordinate();
+    }
+
+    public static SphericCoordinate getSphericCoordinate(double latitude, double longitude, double radius){
+        return entityManagement.getEntitiy(new SphericCoordinate(latitude,longitude,radius)).asSphericCoordinate();
     }
 
     public double getLatitude() {
@@ -57,28 +69,16 @@ public class SphericCoordinate extends AbstractCoordinate{
         return radius;
     }
 
-    public void setLatitude(double latitude) {
-        assertDoubleIsAngular(latitude);
-        this.latitude = latitude;
-        assertClassInvariants();
+    public SphericCoordinate setLatitude(double latitude) {
+        return getSphericCoordinate(latitude, longitude, radius);
     }
 
-    public void setLongitude(double longitude) {
-        assertDoubleIsAngular(longitude);
-        this.longitude = longitude;
-        assertClassInvariants();
+    public SphericCoordinate setLongitude(double longitude) {
+        return getSphericCoordinate(latitude, longitude, radius);
     }
 
-    public void setRadius(double radius) {
-        assert radius >= 0;
-        assert isFinite(radius);
-        if (isDoubleZero(radius)){
-            this.latitude = 0;
-            this.longitude = 0;
-            this.radius = 0;
-        }
-        this.radius = radius;
-        assertClassInvariants();
+    public SphericCoordinate setRadius(double radius) {
+        return getSphericCoordinate(latitude, longitude, radius);
     }
 
     @Override
@@ -91,7 +91,10 @@ public class SphericCoordinate extends AbstractCoordinate{
         double x = radius * Math.sin(latitude) * Math.cos(longitude);
         double y = radius * Math.sin(latitude) * Math.sin(longitude);
         double z = radius * Math.cos(latitude);
-        return new CartesianCoordinate(x, y, z); //invariance ensured by constructor
+        x = roundDoubleDec(x, 5);
+        y = roundDoubleDec(y, 5);
+        z = roundDoubleDec(z, 5);
+        return CartesianCoordinate.getCartesianCoordinate(x, y, z); //invariance ensured by constructor
     }
 
     @Override

@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class SphericCoordinateTest {
-    private Coordinate c0 = new SphericCoordinate();
-    private Coordinate c1 = new SphericCoordinate(0, 0, 1);
-    private Coordinate c2 = new SphericCoordinate(1, 1, 1);
+    private Coordinate c0 = SphericCoordinate.getSphericCoordinate();
+    private Coordinate c1 = SphericCoordinate.getSphericCoordinate(0, 0, 1);
+    private Coordinate c2 = SphericCoordinate.getSphericCoordinate(1, 1, 1);
 
     @Test
     public void testSphericCoordinate() {
@@ -17,30 +17,30 @@ public class SphericCoordinateTest {
 
     @Test(expected = AssertionError.class)
     public void testInvarianceCheck () {
-        Coordinate c = new SphericCoordinate(-1, 0, 0);
+        Coordinate c = SphericCoordinate.getSphericCoordinate(-1, 0, 0);
     }
 
     @Test(expected = AssertionError.class)
     public void testInvarianceCheck2 () {
-        Coordinate c = new SphericCoordinate(0, Double.NaN, 0);
+        Coordinate c = SphericCoordinate.getSphericCoordinate(0, Double.NaN, 0);
     }
 
     @Test(expected = AssertionError.class)
     public void testSetterLatitude () {
-        SphericCoordinate c = new SphericCoordinate();
+        SphericCoordinate c = SphericCoordinate.getSphericCoordinate();
         c.setLatitude(Double.NEGATIVE_INFINITY);
     }
 
     @Test(expected = AssertionError.class)
     public void testSetterLongitude () {
-        SphericCoordinate c = new SphericCoordinate();
+        SphericCoordinate c = SphericCoordinate.getSphericCoordinate();
         c.setLongitude(Double.NEGATIVE_INFINITY);
     }
 
     @Test
     public void testSetterRadius () {
-        SphericCoordinate c = new SphericCoordinate(1,1,1);
-        c.setRadius(0);
+        SphericCoordinate c = SphericCoordinate.getSphericCoordinate(1,1,1);
+        c = c.setRadius(0);
         Assert.assertTrue(0 == c.getLatitude());
         Assert.assertTrue(0 == c.getLongitude());
         Assert.assertTrue(0 == c.getRadius());
@@ -48,7 +48,7 @@ public class SphericCoordinateTest {
 
     @Test(expected = AssertionError.class)
     public void testSetterRadius2 () {
-        SphericCoordinate c = new SphericCoordinate(1,1,1);
+        SphericCoordinate c = SphericCoordinate.getSphericCoordinate(1,1,1);
         c.setRadius(Double.POSITIVE_INFINITY);
     }
 }

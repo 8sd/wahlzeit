@@ -4,11 +4,11 @@ public class Location {
     private Coordinate coordinate;
 
     public Location () {
-        coordinate = new CartesianCoordinate();
+        coordinate = CartesianCoordinate.getCartesianCoordinate();
     }
 
     public Location (double x, double y, double z) {
-        coordinate = new CartesianCoordinate(x, y, z);
+        coordinate = CartesianCoordinate.getCartesianCoordinate(x, y, z);
     }
 
     public Location (Coordinate cord) {

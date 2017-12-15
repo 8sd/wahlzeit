@@ -20,24 +20,31 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.others.EntityManagement;
+
 import static org.wahlzeit.others.Helpers.compareDouble;
 import static org.wahlzeit.others.Helpers.isFinite;
 
 public class CartesianCoordinate extends AbstractCoordinate{
-    private double x, y, z;
+    private static final EntityManagement<Coordinate> entityManagement = new EntityManagement<>();
 
-    public CartesianCoordinate(){
-        /*default behavior is ensuring the invariance*/
-    }
+    private final double x, y, z;
 
-    public CartesianCoordinate(double x, double y, double z){
+    private CartesianCoordinate(double x, double y, double z){
         assert isFinite(x); //it might be valid to accept +-infinite
         assert isFinite(y);
         assert isFinite(z);
         this.x = x;
         this.y = y;
         this.z = z;
-        /*postcondition (valid object) is ensured by preconditions*/
+    }
+
+    public static CartesianCoordinate getCartesianCoordinate(){
+        return entityManagement.getEntitiy(new CartesianCoordinate(0,0,0)).asCartesianCoordinate();
+    }
+
+    public static CartesianCoordinate getCartesianCoordinate(double x, double y, double z){
+        return entityManagement.getEntitiy(new CartesianCoordinate(x,y,z)).asCartesianCoordinate();
     }
 
     public double getX() {
@@ -52,22 +59,16 @@ public class CartesianCoordinate extends AbstractCoordinate{
         return z;
     }
 
-    public void setX(double x) {
-        assert isFinite(x);
-        this.x = x;
-        assertClassInvariants(); //is always valid (valid object + finite x = valid object
+    public CartesianCoordinate setX(double x) {
+        return getCartesianCoordinate(x,y,z);
     }
 
-    public void setY(double y) {
-        assert isFinite(y);
-        this.y = y;
-        assertClassInvariants();
+    public CartesianCoordinate setY(double y) {
+        return getCartesianCoordinate(x,y,z);
     }
 
-    public void setZ(double z) {
-        assert isFinite(z);
-        this.z = z;
-        assertClassInvariants();
+    public CartesianCoordinate setZ(double z) {
+        return getCartesianCoordinate(x,y,z);
     }
 
     @Override
@@ -93,23 +94,9 @@ public class CartesianCoordinate extends AbstractCoordinate{
     }
 
     @Override
-    public boolean equals (Object obj) {
-        if (obj == null){
-            return false;
-        }
-        if (obj == this){
-            return true;
-        }
-        if (obj instanceof Coordinate){
-            return isEqual((Coordinate) obj);
-        }
-        return false;
-    }
-
-    @Override
     public SphericCoordinate asSphericCoordinate (){
         assertClassInvariants();
-        double radius = getCartesianDistance(zero);
+        double radius = getCartesianDistance(CartesianCoordinate.getCartesianCoordinate());
         double latitude = 0;
         double longitude = 0;
         if (!compareDouble(radius, 0)){
@@ -125,7 +112,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
             latitude = Math.asin(z / radius);
         }
 
-        return new SphericCoordinate(latitude, longitude, radius);
+        return SphericCoordinate.getSphericCoordinate(latitude, longitude, radius);
     }
 
     @Override
@@ -157,5 +144,13 @@ public class CartesianCoordinate extends AbstractCoordinate{
         assert isFinite(z);
 
         /*there are no requirements for the range of the values*/
+    }
+
+    protected int doHashCode() {
+        int result = 0xdeadbeef;
+        result = 37 * result + (int) (Double.doubleToLongBits(x) ^ (Double.doubleToLongBits(x) >>> 32));
+        result = 37 * result + (int) (Double.doubleToLongBits(y) ^ (Double.doubleToLongBits(y) >>> 32));
+        result = 37 * result + (int) (Double.doubleToLongBits(z) ^ (Double.doubleToLongBits(z) >>> 32));
+        return result;
     }
 }

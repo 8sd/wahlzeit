@@ -7,13 +7,13 @@ import org.junit.runners.Suite;
 
 public abstract class CoordinateTest {
     private static final double delta = 0.00001;
-    private Coordinate c0 = new CartesianCoordinate();
-    private Coordinate c1 = new CartesianCoordinate(1, 1, 1);
-    private Coordinate c2 = new CartesianCoordinate(1, 0, 0);
-    private Coordinate c3 = new SphericCoordinate();
-    private Coordinate c4 = new SphericCoordinate(0, 0, 1);
-    private Coordinate c5 = new SphericCoordinate(1, 1, 0);
-    private Coordinate c6 = new SphericCoordinate(1, 1, 1);
+    private Coordinate c0 = CartesianCoordinate.getCartesianCoordinate();
+    private Coordinate c1 = CartesianCoordinate.getCartesianCoordinate(1, 1, 1);
+    private Coordinate c2 = CartesianCoordinate.getCartesianCoordinate(1, 0, 0);
+    private Coordinate c3 = SphericCoordinate.getSphericCoordinate();
+    private Coordinate c4 = SphericCoordinate.getSphericCoordinate(0, 0, 1);
+    private Coordinate c5 = SphericCoordinate.getSphericCoordinate(1, 1, 0);
+    private Coordinate c6 = SphericCoordinate.getSphericCoordinate(1, 1, 1);
 
     @Test
     public void testDynamicObjectHandlingEquals() {
@@ -30,10 +30,10 @@ public abstract class CoordinateTest {
 
     @Test
     public void testDynamicObjectHandlingDistance() {
-        Assert.assertEquals(c0.getDistance(c1), Math.sqrt(3), delta);
-        Assert.assertEquals(c0.getDistance(c3), 0, delta);
-        Assert.assertEquals(c0.getDistance(c5), 0, delta);
-        Assert.assertEquals(c0.getDistance(c6), 1, delta);
+        Assert.assertEquals(Math.sqrt(3), c0.getDistance(c1), delta);
+        Assert.assertEquals(0, c0.getDistance(c3), delta);
+        Assert.assertEquals(0, c0.getDistance(c5), delta);
+        Assert.assertEquals(1, c0.getDistance(c6), delta);
     }
 
     @Test

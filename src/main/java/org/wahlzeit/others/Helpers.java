@@ -49,4 +49,8 @@ public class Helpers {
     public static boolean isDoubleZero(double d){
         return compareDouble(d, 0d);
     }
+
+    public static double roundDoubleDec(double d, int n){
+        return Math.round(d * Math.pow(10, n)) / Math.pow(10, n);
+    }
 }

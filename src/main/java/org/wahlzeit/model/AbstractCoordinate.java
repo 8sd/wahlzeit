@@ -20,19 +20,18 @@
 
 package org.wahlzeit.model;
 
-public abstract class AbstractCoordinate implements Coordinate{
+import org.wahlzeit.others.EntityManagement;
 
-    public static final Coordinate zero = new CartesianCoordinate();
+public abstract class AbstractCoordinate implements Coordinate {
+    public abstract SphericCoordinate asSphericCoordinate();
 
-    public abstract SphericCoordinate asSphericCoordinate ();
+    public abstract CartesianCoordinate asCartesianCoordinate();
 
-    public abstract CartesianCoordinate asCartesianCoordinate ();
-
-    public double getDistance (Coordinate coordinate){
+    public double getDistance(Coordinate coordinate) {
         assertClassInvariants();
         assert coordinate != null;
 
-        if(this.isEqual(coordinate)){
+        if (this.isEqual(coordinate)) {
             return 0;
         }
 
@@ -43,21 +42,33 @@ public abstract class AbstractCoordinate implements Coordinate{
         }
     }
 
-    public double getDistance (){
-        return getDistance(zero);
+    public double getDistance() {
+        return getDistance(CartesianCoordinate.getCartesianCoordinate());
     }
 
-    public abstract double getCartesianDistance (Coordinate coordinate);
+    public abstract double getCartesianDistance(Coordinate coordinate);
 
-    public abstract double  getSphericDistance (Coordinate coordinate) throws ArithmeticException;
+    public abstract double getSphericDistance(Coordinate coordinate) throws ArithmeticException;
 
-    public abstract boolean isEqual (Coordinate coordinate);
+    public abstract boolean isEqual(Coordinate coordinate);
+
+    public int hashCode() {
+        return this.asCartesianCoordinate().doHashCode();
+    }
+
+    protected abstract void assertClassInvariants();
 
     @Override
-    public int hashCode(){
-        /*TODO implement purposeful hashfunction*/
-        return 0;
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj instanceof Coordinate) {
+            return isEqual((Coordinate) obj);
+        }
+        return false;
     }
-
-    protected abstract void assertClassInvariants ();
 }
