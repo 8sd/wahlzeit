@@ -5,7 +5,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        HelpersTest.class
+        HelpersTest.class,
+        EntityManagementTest.class
 })
 
 public class OthersTestSuite {
