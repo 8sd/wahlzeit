@@ -8,6 +8,7 @@ import org.wahlzeit.model.PhotoId;
 import org.wahlzeit.model.PhotoManager;
 import org.wahlzeit.model.User;
 import org.wahlzeit.model.UserManager;
+import org.wahlzeit.others.annotations.Pattern;
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.services.mailing.EmailService;
@@ -22,6 +23,10 @@ import java.util.logging.Logger;
 /**
  * An agent class to notify users about new praise received for their photos.
  */
+@Pattern(
+		patternName = "Publish–subscribe pattern",
+		participants = {NotifyUsersAboutPraiseAgent.class,Agent.class}
+)
 public class NotifyUsersAboutPraiseAgent extends Agent {
 
 	public static final String NAME = "notifyUsersAboutPraise";
@@ -34,7 +39,7 @@ public class NotifyUsersAboutPraiseAgent extends Agent {
 
 	/**
 	 * @methodtype command
-	 * 
+	 *
 	 * Notifies all users that want to get informed if their photos have been praised.
 	 */
 	protected void doRun() {
@@ -73,7 +78,7 @@ public class NotifyUsersAboutPraiseAgent extends Agent {
 
 	/**
 	 * @methotype command
-	 * 
+	 *
 	 * Actually notifies one user about the praise of his/her photos.
 	 */
 	protected void notifyOwner(String ownerId, Collection<Photo> allPhotosOfUser) {

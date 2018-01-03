@@ -1,5 +1,7 @@
 package org.wahlzeit.others;
 
+import java.lang.annotation.ElementType;
+
 public class Helpers {
     public static final double Δ = 10e-4;
 

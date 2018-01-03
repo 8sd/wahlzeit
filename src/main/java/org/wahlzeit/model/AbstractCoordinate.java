@@ -21,7 +21,14 @@
 package org.wahlzeit.model;
 
 import org.wahlzeit.others.EntityManagement;
+import org.wahlzeit.others.annotations.Pattern;
 
+@Pattern(
+        patternName = "Chain of Responsibility",
+        participants = {AbstractCoordinate.class}
+        //public double getDistance(Coordinate coordinate)
+        //SphericCoordinate handles calculation; if this fails the CartesianCoordinate does it
+)
 public abstract class AbstractCoordinate implements Coordinate {
     public abstract SphericCoordinate asSphericCoordinate();
 

@@ -20,10 +20,15 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.others.annotations.Pattern;
 import org.wahlzeit.services.LogBuilder;
-
 import java.util.logging.Logger;
 
+
+@Pattern(
+        patternName = "Singleton",
+        participants = {BeerPhotoFactory.class}
+)
 public class BeerPhotoFactory extends PhotoFactory {
     private static final Logger log = Logger.getLogger(BeerPhotoFactory.class.getName());
 

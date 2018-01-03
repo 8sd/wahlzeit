@@ -1,7 +1,21 @@
 package org.wahlzeit.others;
 
+import org.wahlzeit.model.CartesianCoordinate;
+import org.wahlzeit.model.SphericCoordinate;
+import org.wahlzeit.others.annotations.*;
+
 import java.util.HashSet;
 
+@Patterns({
+        @Pattern(
+                patternName = "Multiton",
+                participants = {EntityManagement.class}
+        ),
+        @Pattern(
+                patternName = "Servant",
+                participants = {EntityManagement.class, CartesianCoordinate.class, SphericCoordinate.class}
+        )
+})
 public class EntityManagement<T> {
     private HashSet<T> entities;
 
