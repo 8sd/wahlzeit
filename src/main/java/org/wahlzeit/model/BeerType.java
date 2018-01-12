@@ -28,7 +28,7 @@ public class BeerType {
         return entityManagement.getEntitiy(new BeerType(type));
     }
 
-    public boolean isSubtype (){
-        return false;
+    public boolean isSubtype (Object obj){
+        return obj instanceof BeerType;
     }
 }
