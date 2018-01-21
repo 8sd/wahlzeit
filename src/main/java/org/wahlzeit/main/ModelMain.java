@@ -20,12 +20,7 @@
 
 package org.wahlzeit.main;
 
-import org.wahlzeit.model.GlobalsManager;
-import org.wahlzeit.model.PhotoCaseManager;
-import org.wahlzeit.model.BeerPhotoFactory;
-import org.wahlzeit.model.BeerPhotoManager;
-import org.wahlzeit.model.User;
-import org.wahlzeit.model.UserManager;
+import org.wahlzeit.model.*;
 import org.wahlzeit.model.persistence.DatastoreAdapter;
 import org.wahlzeit.model.persistence.ImageStorage;
 import org.wahlzeit.services.BeerManager;
@@ -66,7 +61,8 @@ public abstract class ModelMain extends AbstractMain {
 		log.config(LogBuilder.createSystemMessage().addAction("load Photos").toString());
 		BeerPhotoManager.getInstance().init();
 
-		BeerManager.getInstance().init();
+//		log.config(LogBuilder.createSystemMessage().addAction("load Beer(Type)s").toString());
+//		BeerManager.getInstance().init();
 	}
 
 
@@ -85,6 +81,8 @@ public abstract class ModelMain extends AbstractMain {
 	public void saveAll() throws IOException{
 		PhotoCaseManager.getInstance().savePhotoCases();
 		BeerPhotoManager.getInstance().savePhotos();
+		BeerManager.getInstance().saveBeers();
+		BeerManager.getInstance().saveBeerTypes();
 		UserManager.getInstance().saveClients();
 		GlobalsManager.getInstance().saveGlobals();
 	}

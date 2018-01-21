@@ -60,7 +60,11 @@ public class GlobalsManager extends ObjectManager {
 		return ObjectifyService.run(new Work<Boolean>() {
 			@Override
 			public Boolean run() {
-				return ofy().load().type(Globals.class).first().now() != null;
+				return ofy()
+						.load()
+						.type(Globals.class)
+						.first()
+						.now() != null;
 			}
 		});
 	}

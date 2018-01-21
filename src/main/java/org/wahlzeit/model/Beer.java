@@ -1,13 +1,19 @@
 package org.wahlzeit.model;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 import org.wahlzeit.services.BeerManager;
 import org.wahlzeit.services.DataObject;
 
+@Entity
 public class Beer extends DataObject {
     public static BeerManager manager = BeerManager.getInstance();
 
     private BeerType type;
     private String brewery;
+
+    @Id
+    long id = 0;
 
     //default constructor not required here, handled by BeerManager
 
@@ -16,12 +22,20 @@ public class Beer extends DataObject {
         this.brewery = brewery;
     }
 
-    public String getBrewery(){
+    public String getBrewery (){
         return brewery;
     }
 
-    public BeerType getType(){
+    public void setBrewery (String brewery) {
+        this.brewery = brewery;
+    }
+
+    public BeerType getType (){
         return type;
+    }
+
+    public void setType(BeerType type) {
+        this.type = type;
     }
 
     //one might use the composite pattern for an type object, all types of beers in this domain have the same

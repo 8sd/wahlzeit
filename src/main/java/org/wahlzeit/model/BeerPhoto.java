@@ -21,41 +21,28 @@
 package org.wahlzeit.model;
 
 import com.googlecode.objectify.annotation.Subclass;
+import com.googlecode.objectify.annotation.Serialize;
 
 @Subclass
 public class BeerPhoto extends Photo {
-    public BeerPhotoManager manager = new BeerPhotoManager();
+//    public BeerPhotoManager manager = new BeerPhotoManager();
 
+//    @Serialize
     private Beer beer = Beer.manager.getBeer();
 
     public BeerPhoto (){
         super();
     }
 
-    public BeerPhoto (String brewery){
-        super();
-        beer = Beer.manager.getBeer("", brewery);
-    }
-
     public BeerPhoto (PhotoId id) {
         super(id);
     }
 
-    public BeerPhoto (PhotoId id, String brewery){
-        super(id);
-        beer = Beer.manager.getBeer("", brewery);
+    public Beer getBeer() {
+        return beer;
     }
 
-    public BeerPhoto (PhotoId id, String brewery, String type){
-        super(id);
-        beer = Beer.manager.getBeer(type, brewery);
-    }
-
-    public String getBrewery() {
-        return beer.getBrewery();
-    }
-
-    public BeerType getType() {
-        return beer.getType();
+    public void setBeer(Beer beer) {
+        this.beer = beer;
     }
 }

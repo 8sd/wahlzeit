@@ -55,11 +55,6 @@ public class BeerPhotoFactory extends PhotoFactory {
     /**
      * @methodtype factory
      */
-    public BeerPhoto createPhoto(String brewery) {
-        return new BeerPhoto(brewery);
-    }
-
-
     public BeerPhoto createPhoto() {
         return new BeerPhoto();
     }
@@ -67,10 +62,6 @@ public class BeerPhotoFactory extends PhotoFactory {
     /**
      * Creates a new photo with the specified id
      */
-    public BeerPhoto createPhoto(PhotoId id, String brewery) {
-        return new BeerPhoto(id, brewery);
-    }
-
     public BeerPhoto createPhoto(PhotoId id) {
         return new BeerPhoto(id);
     }
