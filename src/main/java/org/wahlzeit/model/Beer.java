@@ -2,10 +2,11 @@ package org.wahlzeit.model;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Subclass;
 import org.wahlzeit.services.BeerManager;
 import org.wahlzeit.services.DataObject;
 
-@Entity
+@Subclass
 public class Beer extends DataObject {
     public static BeerManager manager = BeerManager.getInstance();
 

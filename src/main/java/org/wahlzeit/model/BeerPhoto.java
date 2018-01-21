@@ -21,13 +21,9 @@
 package org.wahlzeit.model;
 
 import com.googlecode.objectify.annotation.Subclass;
-import com.googlecode.objectify.annotation.Serialize;
 
 @Subclass
 public class BeerPhoto extends Photo {
-//    public BeerPhotoManager manager = new BeerPhotoManager();
-
-//    @Serialize
     private Beer beer = Beer.manager.getBeer();
 
     public BeerPhoto (){

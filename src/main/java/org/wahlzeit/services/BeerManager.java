@@ -105,7 +105,7 @@ public class BeerManager extends ObjectManager{
     private void addBeerToMap (Beer beer){
         int hash = beer.getType().hashCode()/2 + beer.getBrewery().hashCode()/2;
         beers.put(hash, beer);
-    //    super.writeObject(beer);
+        super.writeObject(beer);
     }
 
     public void loadBeerTypes() {
@@ -129,14 +129,14 @@ public class BeerManager extends ObjectManager{
 
     private void addBeerTypeToMap (BeerType beerType){
         beerTypes.put(beerType.getType(), beerType);
-    //    super.writeObject(beerType);
+        super.writeObject(beerType);
     }
 
     public void saveBeers (){
-    //    updateObjects(beers.values());
+        updateObjects(beers.values());
     }
 
     public void saveBeerTypes (){
-    //    updateObjects(beerTypes.values());
+        updateObjects(beerTypes.values());
     }
 }

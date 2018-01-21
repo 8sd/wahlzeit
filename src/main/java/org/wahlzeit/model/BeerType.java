@@ -1,17 +1,11 @@
 package org.wahlzeit.model;
 
-import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Subclass;
-import org.wahlzeit.others.EntityManagement;
-import org.wahlzeit.services.BeerManager;
 import org.wahlzeit.services.DataObject;
 
 @Subclass
 public class BeerType extends DataObject {
-//    public static BeerManager manager = BeerManager.getInstance();
-
-//    private static final EntityManagement<BeerType> entityManagement = new EntityManagement<>();
 
     private String type;
 
@@ -25,7 +19,6 @@ public class BeerType extends DataObject {
 
     public static BeerType getBeerType(String type){
         assertStringIsValidBeerType(type); //always true ensured by constructor
-   //     return entityManagement.getEntitiy(new BeerType(type));
         return new BeerType(type);
     }
 

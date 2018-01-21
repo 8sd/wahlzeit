@@ -60,9 +60,6 @@ public abstract class ModelMain extends AbstractMain {
 
 		log.config(LogBuilder.createSystemMessage().addAction("load Photos").toString());
 		BeerPhotoManager.getInstance().init();
-
-//		log.config(LogBuilder.createSystemMessage().addAction("load Beer(Type)s").toString());
-//		BeerManager.getInstance().init();
 	}
 
 
