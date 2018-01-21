@@ -1,18 +1,23 @@
 package org.wahlzeit.model;
 
+import com.google.appengine.api.datastore.Key;
+import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Parent;
 import com.googlecode.objectify.annotation.Subclass;
 import org.wahlzeit.others.Helpers;
 import org.wahlzeit.services.DataObject;
+import org.wahlzeit.services.ObjectManager;
 
-@Subclass
+@Entity
 public class BeerType extends DataObject {
 
     private String type;
 
     @Id
-    long id = 1;
-
+    long id;
+    @Parent
+    Key parent = ObjectManager.applicationRootKey;
     private BeerType (String type){
         Helpers.printNfo("Type: " + type);
         assertStringIsValidBeerType(type);

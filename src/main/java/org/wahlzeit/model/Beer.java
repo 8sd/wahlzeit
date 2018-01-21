@@ -1,13 +1,16 @@
 package org.wahlzeit.model;
 
+import com.google.appengine.api.datastore.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Parent;
 import com.googlecode.objectify.annotation.Subclass;
 import org.wahlzeit.others.Helpers;
 import org.wahlzeit.services.BeerManager;
 import org.wahlzeit.services.DataObject;
+import org.wahlzeit.services.ObjectManager;
 
-@Subclass
+@Entity
 public class Beer extends DataObject {
     public static BeerManager manager = BeerManager.getInstance();
 
@@ -15,7 +18,9 @@ public class Beer extends DataObject {
     private String brewery;
 
     @Id
-    long id = 0;
+    long id;
+    @Parent
+    Key parent = ObjectManager.applicationRootKey;
 
     //default constructor not required here, handled by BeerManager
 
