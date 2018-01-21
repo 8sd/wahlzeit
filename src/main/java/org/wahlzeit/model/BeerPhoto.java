@@ -34,7 +34,7 @@ public class BeerPhoto extends Photo {
 
     public BeerPhoto (String brewery){
         super();
-        beer = Beer.manager.getBeer(null, brewery);
+        beer = Beer.manager.getBeer("", brewery);
     }
 
     public BeerPhoto (PhotoId id) {
@@ -43,7 +43,7 @@ public class BeerPhoto extends Photo {
 
     public BeerPhoto (PhotoId id, String brewery){
         super(id);
-        beer = Beer.manager.getBeer(null, brewery);
+        beer = Beer.manager.getBeer("", brewery);
     }
 
     public BeerPhoto (PhotoId id, String brewery, String type){

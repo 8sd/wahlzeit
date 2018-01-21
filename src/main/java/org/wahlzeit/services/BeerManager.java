@@ -1,17 +1,23 @@
 package org.wahlzeit.services;
 
 
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.Work;
 import org.wahlzeit.model.Beer;
 import org.wahlzeit.model.BeerType;
 import org.wahlzeit.model.PhotoManager;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.logging.Logger;
 
+/*This class is mainly inspired by https://github.com/BS88/wahlzeit/compare/adap-cw11...adap-cw12*/
 public class BeerManager extends ObjectManager{
     private static final BeerManager instance = new BeerManager ();
+    private static final Logger log = Logger.getLogger(BeerManager.class.getName());
 
     private Map<Integer, Beer> beers = new HashMap<>();
+    private Map<String, BeerType> beerTypes = new HashMap<>();
+
     private static Beer defaultBeer = new Beer (BeerType.getBeerType("default"), "default");
 
     public BeerManager() {
@@ -22,19 +28,23 @@ public class BeerManager extends ObjectManager{
     }
 
     public Beer getBeer (){
-        return getBeer(null, null);
+        return getBeer("", "");
     }
 
-    public Beer getBeer(String type, String brewery){
+    public Beer getBeer (String type, String brewery){
+        return getBeer(getBeerType(type), brewery);
+    }
+
+    public Beer getBeer (BeerType type, String brewery){
         if (type == null && brewery == null){
             return defaultBeer;
         }
 
         BeerType tmpType;
-        if (type == null || type == "") {
-            tmpType = BeerType.getBeerType("default");
+        if (type == null) {
+            tmpType = getBeerType("default");
         } else {
-            tmpType = BeerType.getBeerType(type);
+            tmpType = type;
         }
 
         if (brewery == null || brewery == ""){
@@ -47,7 +57,85 @@ public class BeerManager extends ObjectManager{
         }
 
         Beer newBeer = new Beer (tmpType, brewery);
-        beers.put(hash, newBeer);
+        addBeerToMap(newBeer);
         return newBeer;
+    }
+
+    public BeerType getBeerType (String type){
+        assert type != null;
+
+        if (type.isEmpty()){
+            type = "default";
+        }
+
+        if (beerTypes.containsKey(type)){
+            return beerTypes.get(type);
+        }
+
+        BeerType tmpType = BeerType.getBeerType(type);
+        addBeerTypeToMap(tmpType);
+        return tmpType;
+    }
+
+    public void init (){
+        loadBeers();
+        loadBeerTypes();
+    }
+
+    public void loadBeers() {
+        ObjectifyService.run(new Work<Void>() {
+            @Override
+            public Void run() {
+                Collection<Beer> existingBeers = new ArrayList<>();
+                readObjects(existingBeers, Beer.class);
+
+                for (Beer beer : existingBeers) {
+                    addBeerToMap(beer);
+                    log.config(LogBuilder.createSystemMessage().addParameter("Beer has been loaded",
+                            beer.getClass()).toString());
+                }
+
+                return null;
+            }
+        });
+        log.info(LogBuilder.createSystemMessage().addMessage("loaded all stored Types").toString());
+    }
+
+    private void addBeerToMap (Beer beer){
+        int hash = beer.getType().hashCode()/2 + beer.getBrewery().hashCode()/2;
+        beers.put(hash, beer);
+        super.writeObject(beer);
+    }
+
+    public void loadBeerTypes() {
+        ObjectifyService.run(new Work<Void>() {
+            @Override
+            public Void run() {
+                Collection<BeerType> existingBeerTypes = new ArrayList<>();
+                readObjects(existingBeerTypes, BeerType.class);
+
+                for (BeerType beerType : existingBeerTypes) {
+                    addBeerTypeToMap(beerType);
+                    log.config(LogBuilder.createSystemMessage().addParameter("BeerType has been loaded",
+                            beerType.getClass()).toString());
+                }
+
+                return null;
+            }
+        });
+        log.info(LogBuilder.createSystemMessage().addMessage("loaded all stored Types").toString());
+    }
+
+    private void addBeerTypeToMap (BeerType beerType){
+        beerTypes.put(beerType.getType(), beerType);
+        super.writeObject(beerType);
+    }
+
+    public void saveBeers (){
+        updateObjects(beers.values());
+    }
+
+    public void saveBeerTypes (){
+        updateObjects(beerTypes.values());
     }
 }

@@ -1,8 +1,9 @@
 package org.wahlzeit.model;
 
 import org.wahlzeit.services.BeerManager;
+import org.wahlzeit.services.DataObject;
 
-public class Beer {
+public class Beer extends DataObject {
     public static BeerManager manager = BeerManager.getInstance();
 
     private BeerType type;

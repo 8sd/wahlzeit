@@ -2,8 +2,9 @@ package org.wahlzeit.model;
 
 import org.wahlzeit.others.EntityManagement;
 import org.wahlzeit.services.BeerManager;
+import org.wahlzeit.services.DataObject;
 
-public class BeerType {
+public class BeerType extends DataObject {
     public static BeerManager manager = BeerManager.getInstance();
 
     private static final EntityManagement<BeerType> entityManagement = new EntityManagement<>();
