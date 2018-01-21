@@ -1,12 +1,13 @@
 package org.wahlzeit.others;
 
-import java.lang.annotation.ElementType;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class Helpers {
-    public static final double Δ = 10e-4;
+    public static final double d = 10e-4;
 
     public static boolean compareDouble (double d1, double d2){
-        return compareDouble(d1, d2, Δ);
+        return compareDouble(d1, d2, d);
     }
 
     public static boolean compareDoubleExact (double double1, double double2){
@@ -61,12 +62,16 @@ public class Helpers {
     }
 
     public static void printNfo (String msg){
+        StringWriter errors = new StringWriter();
+        (new Exception()).printStackTrace(new PrintWriter(errors));
+
         if(msg != null && !msg.isEmpty()) {
             System.out.println("+-------------------------+");
             System.out.println(msg);
         }
+
         System.out.println("+-------------------------+");
-        (new Exception()).printStackTrace();
+        System.out.println(errors.toString());
         System.out.println("+-------------------------+");
     }
 }

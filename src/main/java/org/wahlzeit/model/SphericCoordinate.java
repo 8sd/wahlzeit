@@ -151,7 +151,7 @@ public class SphericCoordinate extends AbstractCoordinate{
     private void assertDoubleIsAngular (double angular){
         assert isFinite(angular);
         assert angular >= 0; //not negative
-        assert angular < twopi; //360° → 0°
+        assert angular < twopi; //360Grad → 0Grad
     }
 
     public double getCartesianDistance (Coordinate coordinate){
@@ -167,14 +167,14 @@ public class SphericCoordinate extends AbstractCoordinate{
         }
 
         //copied from http://www.movable-type.co.uk/scripts/latlong.html
-        double φ1 = latitude;
-        double φ2 = sphericCoordinate.latitude;
-        double Δφ = sphericCoordinate.latitude-latitude;
-        double Δλ = sphericCoordinate.longitude-longitude;
+        double a1 = latitude;
+        double a2 = sphericCoordinate.latitude;
+        double da = sphericCoordinate.latitude-latitude;
+        double db = sphericCoordinate.longitude-longitude;
 
-        double a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-                Math.cos(φ1) * Math.cos(φ2) *
-                        Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        double a = Math.sin(da/2) * Math.sin(da/2) +
+                Math.cos(a1) * Math.cos(a2) *
+                        Math.sin(db/2) * Math.sin(db/2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
         return radius * c;
