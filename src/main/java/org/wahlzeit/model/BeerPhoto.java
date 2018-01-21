@@ -26,7 +26,7 @@ import com.googlecode.objectify.annotation.Subclass;
 public class BeerPhoto extends Photo {
     public BeerPhotoManager manager = new BeerPhotoManager();
 
-    private Beer beer = new Beer();
+    private Beer beer = Beer.manager.getBeer();
 
     public BeerPhoto (){
         super();
@@ -34,7 +34,7 @@ public class BeerPhoto extends Photo {
 
     public BeerPhoto (String brewery){
         super();
-        beer = new Beer(BeerType.Types.Default, brewery);
+        beer = Beer.manager.getBeer(null, brewery);
     }
 
     public BeerPhoto (PhotoId id) {
@@ -43,12 +43,12 @@ public class BeerPhoto extends Photo {
 
     public BeerPhoto (PhotoId id, String brewery){
         super(id);
-        beer = new Beer(BeerType.Types.Default, brewery);
+        beer = Beer.manager.getBeer(null, brewery);
     }
 
-    public BeerPhoto (PhotoId id, String brewery, BeerType.Types type){
+    public BeerPhoto (PhotoId id, String brewery, String type){
         super(id);
-        beer = new Beer(type, brewery);
+        beer = Beer.manager.getBeer(type, brewery);
     }
 
     public String getBrewery() {

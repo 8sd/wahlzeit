@@ -3,18 +3,15 @@ package org.wahlzeit.model;
 import org.wahlzeit.services.BeerManager;
 
 public class Beer {
-    public BeerManager manager = BeerManager.getInstance();
+    public static BeerManager manager = BeerManager.getInstance();
 
     private BeerType type;
     private String brewery;
 
-    public Beer (){
-        type = BeerType.getBeerType(BeerType.Types.Default);
-        brewery = "";
-    }
+    //default constructor not required here, handled by BeerManager
 
-    public Beer (BeerType.Types type, String brewery) {
-        this.type = BeerType.getBeerType(type);
+    public Beer (BeerType type, String brewery) {
+        this.type = type;
         this.brewery = brewery;
     }
 
@@ -25,4 +22,7 @@ public class Beer {
     public BeerType getType(){
         return type;
     }
+
+    //one might use the composite pattern for an type object, all types of beers in this domain have the same
+    //hierarchical level, as a result we omit the pattern here
 }
