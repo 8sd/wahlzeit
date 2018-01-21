@@ -20,6 +20,7 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.others.Helpers;
 import org.wahlzeit.others.annotations.Pattern;
 import org.wahlzeit.services.LogBuilder;
 import java.util.logging.Logger;
@@ -33,7 +34,7 @@ public class BeerPhotoFactory extends PhotoFactory {
     private static final Logger log = Logger.getLogger(BeerPhotoFactory.class.getName());
 
     protected BeerPhotoFactory (){
-
+        Helpers.printNfo();
     }
 
     public static void initialize (){

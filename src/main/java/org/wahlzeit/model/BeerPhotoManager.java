@@ -20,6 +20,8 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.others.Helpers;
+
 import java.util.logging.Logger;
 
 public class BeerPhotoManager extends PhotoManager {
@@ -27,6 +29,7 @@ public class BeerPhotoManager extends PhotoManager {
 
     public BeerPhotoManager() {
         super ();
+        Helpers.printNfo();
     }
 
     public static BeerPhotoManager getInstance() {

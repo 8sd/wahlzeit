@@ -27,6 +27,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Parent;
+import org.wahlzeit.others.Helpers;
 import org.wahlzeit.services.DataObject;
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.Language;
@@ -140,6 +141,7 @@ public class Photo extends DataObject {
 	 * @methodtype constructor
 	 */
 	public Photo() {
+		Helpers.printNfo();
 		id = PhotoId.getNextId();
 		incWriteCount();
 	}
@@ -148,6 +150,7 @@ public class Photo extends DataObject {
 	 * @methodtype constructor
 	 */
 	public Photo(PhotoId myId) {
+		Helpers.printNfo();
 		id = myId;
 
 		incWriteCount();

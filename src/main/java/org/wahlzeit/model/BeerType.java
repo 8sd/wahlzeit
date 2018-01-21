@@ -2,6 +2,7 @@ package org.wahlzeit.model;
 
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Subclass;
+import org.wahlzeit.others.Helpers;
 import org.wahlzeit.services.DataObject;
 
 @Subclass
@@ -13,6 +14,7 @@ public class BeerType extends DataObject {
     long id = 1;
 
     private BeerType (String type){
+        Helpers.printNfo("Type: " + type);
         assertStringIsValidBeerType(type);
         this.type = type;
     }

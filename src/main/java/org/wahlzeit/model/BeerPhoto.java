@@ -21,6 +21,7 @@
 package org.wahlzeit.model;
 
 import com.googlecode.objectify.annotation.Subclass;
+import org.wahlzeit.others.Helpers;
 
 @Subclass
 public class BeerPhoto extends Photo {
@@ -28,10 +29,12 @@ public class BeerPhoto extends Photo {
 
     public BeerPhoto (){
         super();
+        Helpers.printNfo();
     }
 
     public BeerPhoto (PhotoId id) {
         super(id);
+        Helpers.printNfo();
     }
 
     public Beer getBeer() {

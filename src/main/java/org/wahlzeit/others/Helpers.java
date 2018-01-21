@@ -55,4 +55,18 @@ public class Helpers {
     public static double roundDoubleDec(double d, int n){
         return Math.round(d * Math.pow(10, n)) / Math.pow(10, n);
     }
+
+    public static void printNfo (){
+        printNfo("");
+    }
+
+    public static void printNfo (String msg){
+        if(msg != null && !msg.isEmpty()) {
+            System.out.println("+-------------------------+");
+            System.out.println(msg);
+        }
+        System.out.println("+-------------------------+");
+        (new Exception()).printStackTrace();
+        System.out.println("+-------------------------+");
+    }
 }
