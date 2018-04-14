@@ -60,6 +60,6 @@ For more information, please see http://github.com/dirkriehle/wahlzeit and http:
 
 Done!
 
---
+---
 
 ¹ Gradle compiles automatically to JDK 1.7, because later versions are not yet supported by Google App Engine Standard Environment
